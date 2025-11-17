@@ -408,30 +408,6 @@ ng build --configuration production
 ng lint
 ```
 
-## Known Limitations
-
-1. **Local Storage Only** - Data is stored in browser localStorage (not synced across devices)
-2. **Single User** - No authentication or multi-user support
-3. **No Backend** - All data is client-side only
-4. **No Export** - Cannot export timeline to PDF/PNG/CSV
-5. **Browser Dependent** - Each browser maintains separate storage
-
-## Future Enhancements
-
-Planned features for future versions:
-
-- [ ] Backend integration (Firebase/API)
-- [ ] Export to PDF/PNG/CSV
-- [ ] Import events from CSV/JSON
-- [ ] Search and filter functionality
-- [ ] Custom color themes via configuration
-- [ ] Event categories/tags
-- [ ] Drag-and-drop event reordering
-- [ ] Multi-language support (i18n)
-- [ ] Image attachments for events
-- [ ] Shareable timeline links
-- [ ] Dark mode support
-
 ## Technology Stack
 
 - **Angular**: 20+
@@ -451,54 +427,9 @@ import { FormsModule } from '@angular/forms';
 
 No external dependencies required beyond Angular core modules.
 
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Commit changes: `git commit -m "Add my feature"`
-4. Push to branch: `git push origin feature/my-feature`
-5. Open a Pull Request
-
-### Contribution Guidelines
-
-- Follow Angular style guide
-- Maintain existing code structure (separate .ts, .html, .css files)
-- Test on multiple browsers and screen sizes
-- Update README if adding new features
-
 ## License
 
 MIT License - Free to use in personal and commercial projects.
-
-## Support
-
-For issues or questions:
-1. Check the **Troubleshooting** section above
-2. Review the component code and comments
-3. Open an issue on GitHub with:
-   - Description of the problem
-   - Steps to reproduce
-   - Screenshots (if applicable)
-   - Angular version and browser details
-   - Console error messages
-
-## Changelog
-
-### Version 1.0.0 (Current)
-- ✅ Initial release
-- ✅ Standalone component architecture
-- ✅ Separated component files (.ts, .html, .css)
-- ✅ Timeline with alternating layout
-- ✅ Integrated CMS functionality
-- ✅ Responsive design for all devices
-- ✅ Local storage persistence
-- ✅ Three date format support (YYYY, MM/YYYY, DD/MM/YYYY)
-- ✅ Add, edit, delete event operations
-- ✅ Real-time sorting by date
-- ✅ Year markers on timeline
-- ✅ Custom styled CMS panel
 
 ---
 
