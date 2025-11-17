@@ -3,7 +3,7 @@
 
 A modern, responsive timeline component for Angular 20+ with an integrated Content Management System (CMS) for managing timeline events.
 
-**Live Demo**: [Timeline CMS](https://kash-pram.github.io/angular20-timeline-cms-sample/)
+**Live Demo**: [Timeline CMS](https://kash-pram.github.io/angular-timeline-cms/)
 
 **This is a standalone Angular component that can be easily integrated into any existing Angular project without any module configuration.**
 
