@@ -1,0 +1,66 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# ADD THESE PERMISSIONS
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Check for lock file
+        id: check-lock
+        run: |
+          if [ -f "package-lock.json" ]; then
+            echo "LOCK_EXISTS=true" >> $GITHUB_OUTPUT
+          else
+            echo "LOCK_EXISTS=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Install dependencies (with lock file)
+        if: steps.check-lock.outputs.LOCK_EXISTS == 'true'
+        run: npm ci
+      
+      - name: Install dependencies (without lock file)
+        if: steps.check-lock.outputs.LOCK_EXISTS == 'false'
+        run: npm install
+      
+      - name: Get project name from angular.json
+        id: project-name
+        run: |
+          PROJECT_NAME=$(node -pe "Object.keys(require('./angular.json').projects)[0]")
+          echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_OUTPUT
+      
+      - name: Build
+        run: npm run build -- --configuration production --base-href /angular-timeline-cms/
+      
+      - name: Check for browser folder
+        id: check-browser
+        run: |
+          if [ -d "dist/${{ steps.project-name.outputs.PROJECT_NAME }}/browser" ]; then
+            echo "BUILD_DIR=dist/${{ steps.project-name.outputs.PROJECT_NAME }}/browser" >> $GITHUB_OUTPUT
+          else
+            echo "BUILD_DIR=dist/${{ steps.project-name.outputs.PROJECT_NAME }}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ steps.check-browser.outputs.BUILD_DIR }}
+          publish_branch: gh-pages

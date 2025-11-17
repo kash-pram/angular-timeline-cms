@@ -1,0 +1,126 @@
+<div class="timeline-app">
+    <!-- Toggle Button -->
+    <button class="cms-toggle" (click)="showCMS = !showCMS">
+      {{ showCMS ? 'View Timeline' : 'Manage Events' }}
+    </button>
+
+    <!-- CMS Panel -->
+    @if (showCMS) {
+      <div class="cms-panel">
+        <h2>Timeline CMS</h2>
+        
+        <form (ngSubmit)="saveEvent()" class="event-form">
+          <div class="form-group">
+            <label>Date (YYYY, MM/YYYY or DD/MM/YYYY)</label>
+            <input
+              type="text"
+              [(ngModel)]="formData.date"
+              name="date"
+              placeholder="e.g., 2020, 03/2020 or 15/03/2020"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Title</label>
+            <input
+              type="text"
+              [(ngModel)]="formData.title"
+              name="title"
+              placeholder="Event title"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <textarea
+              [(ngModel)]="formData.description"
+              name="description"
+              placeholder="Event description"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">
+              {{ editingId ? 'Update' : 'Add' }} Event
+            </button>
+            @if (editingId) {
+              <button
+                type="button"
+                class="btn-secondary"
+                (click)="cancelEdit()"
+              >
+                Cancel
+              </button>
+            }
+          </div>
+        </form>
+
+        <div class="events-list">
+          <h3>All Events</h3>
+          @if (events.length === 0) {
+            <div class="empty-state">
+              No events yet. Add your first event above.
+            </div>
+          }
+          @for (event of events; track event.id) {
+            <div class="event-item">
+              <div class="event-info">
+                <strong>{{ event.title }}</strong>
+                <span class="event-date">{{ event.date }}</span>
+                <p>{{ event.description }}</p>
+              </div>
+              <div class="event-actions">
+                <button (click)="editEvent(event)" class="btn-icon">
+                  ✏️
+                </button>
+                <button (click)="deleteEvent(event.id)" class="btn-icon">
+                  🗑️
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Timeline View -->
+    @if (!showCMS) {
+      <div class="timeline-view">
+        <h1 class="timeline-title">Timeline</h1>
+        
+        @if (sortedEvents.length === 0) {
+          <div class="empty-timeline">
+            <p>No events to display. Add some events in the CMS!</p>
+          </div>
+        }
+
+        @if (sortedEvents.length > 0) {
+            <div class="timeline">
+                @for (event of sortedEvents; track event.id; let i = $index) {
+                    <div class="timeline-item timeline-container"
+                    [class.left]="i % 2 === 0"
+                   [class.right]="i % 2 !== 0">
+                        <div class="timeline-marker"
+                        [class.marker-left]="i % 2 === 0"
+                        [class.marker-right]="i % 2 !== 0">
+                            {{ event.year }}
+                        </div>
+                        <div class="timeline-content">
+                            <h3>{{ event.title }}</h3>
+                            <p class="timeline-date">{{ event.date }}</p>
+                            <p class="timeline-description">{{ event.description }}</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+      </div>
+    }
+  </div>
+
+
+
+
